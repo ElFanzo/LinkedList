@@ -1,2 +1,2 @@
-# SingleLinkedList
-An example of the implementation of linked list 
+# LinkedList
+An example of the implementation of linked lists
