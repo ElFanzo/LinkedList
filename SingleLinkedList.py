@@ -72,9 +72,7 @@ class LinkedList:
         elif index == len(self):
             self.addAtTail(val)
         elif 0 < index < len(self):
-            temp = self.root
-            for i in range(index - 1):
-                temp = temp.next
+            temp = self.__get(index - 1)
             node = Node(val, temp.next)
             temp.next = node
             self.__length += 1
@@ -84,12 +82,16 @@ class LinkedList:
         Delete the index-th node in the linked list, if the index is valid.
         """
         if 0 <= index < len(self):
-            if index == 0:
+            if len(self) == 1:
+                self.root = None
+                self.end = None
+            elif index == 0:
                 self.root = self.root.next
+            elif index == len(self) - 1:
+                self.end = self.__get(len(self) - 2)
+                self.end.next = None
             else:
-                temp = self.root
-                for i in range(index - 1):
-                    temp = temp.next
+                temp = self.__get(index - 1)
                 temp.next = temp.next.next
             self.__length -= 1
 
@@ -99,12 +101,9 @@ class LinkedList:
         """
         if len(self) == 0:
             return None
-        temp = self.root.val
-        self.root = self.root.next
-        if len(self) == 1:
-            self.end = None
-        self.__length -= 1
-        return temp
+        res = self.root.val
+        self.deleteAtIndex(0)
+        return res
 
     def popEnd(self):
         """
@@ -112,12 +111,9 @@ class LinkedList:
         """
         if len(self) < 2:
             return self.popRoot()
-        temp = self.__get(-2)
-        self.end = temp
-        temp = temp.next.val
-        self.end.next = None
-        self.__length -= 1
-        return temp
+        res = self.end.val
+        self.deleteAtIndex(len(self) - 1)
+        return res
 
     def __len__(self):
         return self.__length
