@@ -75,8 +75,7 @@ class SinglyLinkedList:
     def addAtIndex(self, index, val, *values):
         """
         Add a node(s) of value(s) val(values) before the index-th node in the linked list. If index equals to the length
-        of linked list, the node will be appended to the end of linked list. If index is greater than the length, the
-        node will not be inserted.
+        of linked list, the node will be appended to the end of linked list.
         :param index: node index
         :param val: node value
         :param values: additional values
@@ -93,12 +92,14 @@ class SinglyLinkedList:
             node = Node(val, temp.next)
             temp.next = node
             self._length += 1
+        else:
+            raise IndexError
 
     def deleteAtIndex(self, index):
         """
         Delete the index-th node in the linked list, if the index is valid.
         :param index: node index
-        :return: 
+        :return:
         """
         if 0 <= index < len(self):
             if len(self) == 1:
@@ -113,10 +114,13 @@ class SinglyLinkedList:
                 temp = self._get(index - 1)
                 temp.next = temp.next.next
             self._length -= 1
+        else:
+            raise IndexError
 
     def popRoot(self):
         """
         Remove the first node in the linked list and return its value.
+        :return value: 1st node value
         """
         if len(self) == 0:
             return None
@@ -127,6 +131,7 @@ class SinglyLinkedList:
     def popEnd(self):
         """
         Remove the last node in the linked list and return its value.
+        :return value: last node value
         """
         if len(self) < 2:
             return self.popRoot()
@@ -157,7 +162,7 @@ class SinglyLinkedList:
         (self._get(key)).val = value
 
     def __reversed__(self):
-        return SinglyLinkedList(i for i in self[::-1])
+        return SinglyLinkedList([i for i in self[::-1]])
 
     def __contains__(self, item):
         temp = self.root
@@ -167,19 +172,3 @@ class SinglyLinkedList:
 
     def __str__(self):
         return ' -> '.join(str(i) for i in self)
-
-
-if __name__ == '__main__':
-    myList = SinglyLinkedList()
-    myList.addAtHead(3)
-    myList.addAtHead(4)
-    myList.addAtTail(0)
-    myList.addAtTail(2)
-    myList.addAtIndex(3, 5)
-    myList[0] = 10
-    print(myList)
-    testList = SinglyLinkedList(1, 2, 3)
-    print(testList[::-1])
-    print(2 in testList)
-    print(testList.popEnd())
-    print(testList.popRoot())
