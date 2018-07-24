@@ -7,9 +7,11 @@ class Node:
         self.next = next
 
 
-class LinkedList:
+class SinglyLinkedList:
     """
     Linked list class, whose elements are an instance of the Node class.
+    :param root: 1st element of Linked List
+    :param end: last element of Linked List
     """
     def __init__(self, *values):
         self.root = None
@@ -39,8 +41,10 @@ class LinkedList:
 
     def addAtHead(self, val, *values):
         """
-        Add a node of value val before the first element of the linked list. After the insertion, the new node will be
-        the first node of the linked list.
+        Add a node(s) of value(s) val(values) before the first element of the linked list.
+        :param val: node value
+        :param values: additional values
+        :return:
         """
         for i in values[::-1]:
             self.addAtHead(i)
@@ -54,7 +58,10 @@ class LinkedList:
 
     def addAtTail(self, val, *values):
         """
-        Append a node of value val to the last element of the linked list.
+        Append a node(s) of value(s) val(values) to the last element of the linked list.
+        :param val: node value
+        :param values: additional values
+        :return:
         """
         if not self.end:
             self.addAtHead(val)
@@ -67,9 +74,13 @@ class LinkedList:
 
     def addAtIndex(self, index, val, *values):
         """
-        Add a node of value val before the index-th node in the linked list. If index equals to the length of linked
-        list, the node will be appended to the end of linked list. If index is greater than the length, the node
-        will not be inserted.
+        Add a node(s) of value(s) val(values) before the index-th node in the linked list. If index equals to the length
+        of linked list, the node will be appended to the end of linked list. If index is greater than the length, the
+        node will not be inserted.
+        :param index: node index
+        :param val: node value
+        :param values: additional values
+        :return:
         """
         if index == 0:
             self.addAtHead(val, *values)
@@ -86,6 +97,8 @@ class LinkedList:
     def deleteAtIndex(self, index):
         """
         Delete the index-th node in the linked list, if the index is valid.
+        :param index: node index
+        :return: 
         """
         if 0 <= index < len(self):
             if len(self) == 1:
@@ -144,7 +157,7 @@ class LinkedList:
         (self._get(key)).val = value
 
     def __reversed__(self):
-        return LinkedList(i for i in self[::-1])
+        return SinglyLinkedList(i for i in self[::-1])
 
     def __contains__(self, item):
         temp = self.root
@@ -157,7 +170,7 @@ class LinkedList:
 
 
 if __name__ == '__main__':
-    myList = LinkedList()
+    myList = SinglyLinkedList()
     myList.addAtHead(3)
     myList.addAtHead(4)
     myList.addAtTail(0)
@@ -165,7 +178,7 @@ if __name__ == '__main__':
     myList.addAtIndex(3, 5)
     myList[0] = 10
     print(myList)
-    testList = LinkedList(1, 2, 3)
+    testList = SinglyLinkedList(1, 2, 3)
     print(testList[::-1])
     print(2 in testList)
     print(testList.popEnd())
