@@ -11,14 +11,14 @@ class LinkedList:
     """
     Linked list class, whose elements are an instance of the Node class.
     """
-    def __init__(self, *args):
+    def __init__(self, *values):
         self.root = None
         self.end = None
-        self.__length = 0
-        for i in args:
+        self._length = 0
+        for i in values:
             self.addAtTail(i)
 
-    def __get(self, index):
+    def _get(self, index):
         """
         Get the index-th node in the linked list.
         """
@@ -37,20 +37,22 @@ class LinkedList:
             temp = temp.next
         return temp
 
-    def addAtHead(self, val):
+    def addAtHead(self, val, *values):
         """
         Add a node of value val before the first element of the linked list. After the insertion, the new node will be
         the first node of the linked list.
         """
+        for i in values[::-1]:
+            self.addAtHead(i)
         if not self.root:
             self.root = Node(val)
             self.end = self.root
         else:
             node = Node(val, self.root)
             self.root = node
-        self.__length += 1
+        self._length += 1
 
-    def addAtTail(self, val):
+    def addAtTail(self, val, *values):
         """
         Append a node of value val to the last element of the linked list.
         """
@@ -59,23 +61,27 @@ class LinkedList:
         else:
             self.end.next = Node(val)
             self.end = self.end.next
-            self.__length += 1
+            self._length += 1
+        for i in values:
+            self.addAtTail(i)
 
-    def addAtIndex(self, index, val):
+    def addAtIndex(self, index, val, *values):
         """
         Add a node of value val before the index-th node in the linked list. If index equals to the length of linked
         list, the node will be appended to the end of linked list. If index is greater than the length, the node
         will not be inserted.
         """
         if index == 0:
-            self.addAtHead(val)
+            self.addAtHead(val, *values)
         elif index == len(self):
-            self.addAtTail(val)
+            self.addAtTail(val, *values)
         elif 0 < index < len(self):
-            temp = self.__get(index - 1)
+            for i in values[::-1]:
+                self.addAtIndex(index, i)
+            temp = self._get(index - 1)
             node = Node(val, temp.next)
             temp.next = node
-            self.__length += 1
+            self._length += 1
 
     def deleteAtIndex(self, index):
         """
@@ -88,12 +94,12 @@ class LinkedList:
             elif index == 0:
                 self.root = self.root.next
             elif index == len(self) - 1:
-                self.end = self.__get(len(self) - 2)
+                self.end = self._get(len(self) - 2)
                 self.end.next = None
             else:
-                temp = self.__get(index - 1)
+                temp = self._get(index - 1)
                 temp.next = temp.next.next
-            self.__length -= 1
+            self._length -= 1
 
     def popRoot(self):
         """
@@ -116,11 +122,11 @@ class LinkedList:
         return res
 
     def __len__(self):
-        return self.__length
+        return self._length
 
     def __iter__(self):
         for i in range(len(self)):
-            yield (self.__get(i)).val
+            yield (self._get(i)).val
 
     def __getitem__(self, item):
         if isinstance(item, slice):
@@ -131,11 +137,11 @@ class LinkedList:
                 start, stop = stop, start
                 start -= 1
                 stop -= 1
-            return [(self.__get(i)).val for i in range(start, stop, step)]
-        return (self.__get(item)).val
+            return [(self._get(i)).val for i in range(start, stop, step)]
+        return (self._get(item)).val
 
     def __setitem__(self, key, value):
-        (self.__get(key)).val = value
+        (self._get(key)).val = value
 
     def __reversed__(self):
         return LinkedList(i for i in self[::-1])
