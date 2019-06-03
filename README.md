@@ -1,2 +1,2 @@
 # LinkedList
-An example of the implementation of linked lists
+A linked list implementation example
