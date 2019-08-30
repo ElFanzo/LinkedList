@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from List.DoublyLinkedList import DLinkedList
+from LinkedList.DoublyLinkedList import DLinkedList
 
 
 class TestList(TestCase):
@@ -12,27 +12,27 @@ class TestList(TestCase):
         self.assertEqual(str(self._list), '0')
 
         self._list.addAtHead(1, 2)
-        self.assertEqual(str(self._list), '1 -- 2 -- 0')
+        self.assertEqual(str(self._list), '1 >< 2 >< 0')
 
     def test_addAtTail(self):
         self._list.addAtTail(1, 3, 5)
-        self.assertEqual(str(self._list), '1 -- 3 -- 5')
+        self.assertEqual(str(self._list), '1 >< 3 >< 5')
 
         self._list.addAtTail(4)
-        self.assertEqual(str(self._list), '1 -- 3 -- 5 -- 4')
+        self.assertEqual(str(self._list), '1 >< 3 >< 5 >< 4')
 
     def test_addAtIndex(self):
         self._list.addAtIndex(0, 1, 2)
-        self.assertEqual(str(self._list), '1 -- 2')
+        self.assertEqual(str(self._list), '1 >< 2')
 
         self._list.addAtIndex(0, 3, 4)
-        self.assertEqual(str(self._list), '3 -- 4 -- 1 -- 2')
+        self.assertEqual(str(self._list), '3 >< 4 >< 1 >< 2')
 
         self._list.addAtIndex(3, 5)
-        self.assertEqual(str(self._list), '3 -- 4 -- 1 -- 5 -- 2')
+        self.assertEqual(str(self._list), '3 >< 4 >< 1 >< 5 >< 2')
 
         self._list.addAtIndex(5, 6)
-        self.assertEqual(str(self._list), '3 -- 4 -- 1 -- 5 -- 2 -- 6')
+        self.assertEqual(str(self._list), '3 >< 4 >< 1 >< 5 >< 2 >< 6')
 
         with self.assertRaises(IndexError):
             self._list.addAtIndex(99, 1)
@@ -44,7 +44,7 @@ class TestList(TestCase):
         self._list.addAtHead(1, 2, 3)
 
         self._list.deleteAtIndex(0)
-        self.assertEqual(str(self._list), '2 -- 3')
+        self.assertEqual(str(self._list), '2 >< 3')
 
         self._list.deleteAtIndex(1)
         self.assertEqual(str(self._list), '2')
@@ -124,6 +124,38 @@ class TestList(TestCase):
 
         self._list.deleteAtIndex(0)
         self.assertEqual(len(self._list), 4)
+
+    def test_add(self):
+        self._list.addAtHead(2, 4, 6)
+        temp = DLinkedList(1, 3, 5)
+        temp = self._list + temp
+        self.assertEqual(str(temp), '2 >< 4 >< 6 >< 1 >< 3 >< 5')
+
+        temp = DLinkedList()
+        temp = self._list + temp
+        self.assertEqual(str(temp), '2 >< 4 >< 6')
+
+        temp = DLinkedList(1)
+        temp = self._list + temp
+        self.assertEqual(str(temp), '2 >< 4 >< 6 >< 1')
+
+        temp = DLinkedList(0) + DLinkedList(1)
+        self.assertEqual(str(temp), '0 >< 1')
+
+        temp = DLinkedList() + DLinkedList()
+        self.assertEqual(str(temp), '')
+
+    def test_double(self):
+        self._list.addAtHead(1, 2, 3)
+        temp = self._list.end
+        temp = temp.prev
+        self.assertEqual(temp.val, 2)
+
+        temp = temp.prev
+        self.assertEqual(temp.val, 1)
+
+        temp = temp.prev
+        self.assertIsNone(temp)
 
 
 if __name__ == '__main__':

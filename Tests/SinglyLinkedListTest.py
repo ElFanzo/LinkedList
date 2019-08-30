@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from List.SinglyLinkedList import SinglyLinkedList
+from LinkedList.SinglyLinkedList import SinglyLinkedList
 
 
 class TestList(TestCase):
@@ -124,6 +124,26 @@ class TestList(TestCase):
 
         self._list.deleteAtIndex(0)
         self.assertEqual(len(self._list), 4)
+
+    def test_add(self):
+        self._list.addAtHead(2, 4, 6)
+        temp = SinglyLinkedList(1, 3, 5)
+        temp = self._list + temp
+        self.assertEqual(str(temp), '2 -> 4 -> 6 -> 1 -> 3 -> 5')
+
+        temp = SinglyLinkedList()
+        temp = self._list + temp
+        self.assertEqual(str(temp), '2 -> 4 -> 6')
+
+        temp = SinglyLinkedList(1)
+        temp = self._list + temp
+        self.assertEqual(str(temp), '2 -> 4 -> 6 -> 1')
+
+        temp = SinglyLinkedList(0) + SinglyLinkedList(1)
+        self.assertEqual(str(temp), '0 -> 1')
+
+        temp = SinglyLinkedList() + SinglyLinkedList()
+        self.assertEqual(str(temp), '')
 
 
 if __name__ == '__main__':
