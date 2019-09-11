@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from LinkedList.DoublyLinkedList import DLinkedList
+from DoublyLinkedList import DLinkedList
 
 
 class TestList(TestCase):
