@@ -43,7 +43,7 @@ class SinglyLinkedList:
             self.addAtHead(*values)
         else:
             for val in values:
-                self.end.next = Node(i)
+                self.end.next = Node(val)
                 self.end = self.end.next
             self._length += len(values)
 
