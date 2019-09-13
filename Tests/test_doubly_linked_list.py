@@ -58,8 +58,10 @@ class TestList(TestCase):
         self._list.add_at_head(1, 2)
 
         self.assertEqual(self._list.pop_root(), 1)
+        self.assertListEqual(self._list[:], [2])
 
         self.assertEqual(self._list.pop_root(), 2)
+        self.assertListEqual(self._list[:], [])
 
         self.assertIsNone(self._list.pop_root())
 
@@ -69,8 +71,10 @@ class TestList(TestCase):
         self._list.add_at_head(2, 3)
 
         self.assertEqual(self._list.pop_end(), 3)
+        self.assertListEqual(self._list[:], [2])
 
         self.assertEqual(self._list.pop_end(), 2)
+        self.assertListEqual(self._list[:], [])
 
         self.assertIsNone(self._list.pop_end())
 
@@ -156,6 +160,18 @@ class TestList(TestCase):
 
         temp = temp.prev
         self.assertIsNone(temp)
+
+    def test_str(self):
+        self.assertEqual(str(self._list), '')
+
+        self._list.add_at_head(10)
+        self.assertEqual(str(self._list), '10')
+
+        self._list.add_at_tail(4, 5, 13)
+        self.assertEqual(str(self._list), '10 >< 4 >< 5 >< 13')
+
+        self._list.delete_at_index(0)
+        self.assertEqual(str(self._list), '4 >< 5 >< 13')
 
 
 if __name__ == '__main__':

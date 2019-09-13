@@ -58,8 +58,10 @@ class TestList(TestCase):
         self._list.add_at_head(1, 2)
 
         self.assertEqual(self._list.pop_root(), 1)
+        self.assertListEqual(self._list[:], [2])
 
         self.assertEqual(self._list.pop_root(), 2)
+        self.assertListEqual(self._list[:], [])
 
         self.assertIsNone(self._list.pop_root())
 
@@ -69,8 +71,10 @@ class TestList(TestCase):
         self._list.add_at_head(2, 3)
 
         self.assertEqual(self._list.pop_end(), 3)
+        self.assertListEqual(self._list[:], [2])
 
         self.assertEqual(self._list.pop_end(), 2)
+        self.assertListEqual(self._list[:], [])
 
         self.assertIsNone(self._list.pop_end())
 
