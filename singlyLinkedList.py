@@ -95,7 +95,7 @@ class SinglyLinkedList:
         Remove the first node from a linked list and return its value.
         :return value: The 1st node value
         """
-        if len(self) == 0:
+        if not self:
             return None
         res = self.root.val
         self.deleteAtIndex(0)
