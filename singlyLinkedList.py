@@ -18,9 +18,9 @@ class SinglyLinkedList:
         self.end = None
         self._length = 0
         
-        self.addAtHead(*values)
+        self.add_at_head(*values)
 
-    def addAtHead(self, *values):
+    def add_at_head(self, *values):
         """
         Add a node(s) with value(s) before the first element of a linked list.
         :param values: a number or a sequence of numbers
@@ -33,21 +33,21 @@ class SinglyLinkedList:
                 self.end = self.root
         self._length += len(values)
 
-    def addAtTail(self, *values):
+    def add_at_tail(self, *values):
         """
         Append a node(s) with value(s) to the last element of a linked list.
         :param values: a number or a sequence of numbers
         :return:
         """
         if not self.end:
-            self.addAtHead(*values)
+            self.add_at_head(*values)
         else:
             for val in values:
                 self.end.next = Node(val)
                 self.end = self.end.next
             self._length += len(values)
 
-    def addAtIndex(self, index, *values):
+    def add_at_index(self, index, *values):
         """
         Add a node(s) with value(s) before the index-th node in a linked list. If the index equals to the length
         of the linked list, the node will be appended to the end of the linked list.
@@ -56,9 +56,9 @@ class SinglyLinkedList:
         :return:
         """
         if index == 0:
-            self.addAtHead(*values)
+            self.add_at_head(*values)
         elif index == len(self):
-            self.addAtTail(*values)
+            self.add_at_tail(*values)
         elif 0 < index < len(self):
             for val in values[::-1]:
                 temp = self._get(index - 1)
@@ -68,7 +68,7 @@ class SinglyLinkedList:
         else:
             raise IndexError
 
-    def deleteAtIndex(self, index):
+    def delete_at_index(self, index):
         """
         Delete the index-th node in a linked list, if the index is valid.
         :param index: the node index
@@ -90,7 +90,7 @@ class SinglyLinkedList:
         else:
             raise IndexError
 
-    def popRoot(self):
+    def pop_root(self):
         """
         Remove the first node from a linked list and return its value.
         :return value: The 1st node value
@@ -98,18 +98,18 @@ class SinglyLinkedList:
         if not self:
             return None
         res = self.root.val
-        self.deleteAtIndex(0)
+        self.delete_at_index(0)
         return res
 
-    def popEnd(self):
+    def pop_end(self):
         """
         Remove the last node  from a linked list and return its value.
         :return value: The last node value
         """
         if len(self) < 2:
-            return self.popRoot()
+            return self.pop_root()
         res = self.end.val
-        self.deleteAtIndex(len(self) - 1)
+        self.delete_at_index(len(self) - 1)
         return res
 
     def _get(self, index):
@@ -155,9 +155,6 @@ class SinglyLinkedList:
     def __setitem__(self, key, value):
         (self._get(key)).val = value
 
-    def __reversed__(self):
-        return SinglyLinkedList([i for i in self[::-1]])
-
     def __contains__(self, item):
         temp = self.root
         while temp and temp.val != item:
@@ -168,7 +165,7 @@ class SinglyLinkedList:
         first = [i for i in self]
         second = [i for i in other]
         result = SinglyLinkedList(*first)
-        result.addAtTail(*second)
+        result.add_at_tail(*second)
         return result
 
     def __str__(self):
