@@ -2,6 +2,7 @@ class Node:
     """
     A linked list element class.
     """
+
     def __init__(self, value=None, next=None):
         self.val = value
         self.next = next
@@ -13,11 +14,12 @@ class SinglyLinkedList:
     :param root: The 1st element
     :param end: The last element
     """
+
     def __init__(self, *values):
         self.root = None
         self.end = None
         self._length = 0
-        
+
         self.add_at_head(*values)
 
     def add_at_head(self, *values):
@@ -169,4 +171,4 @@ class SinglyLinkedList:
         return result
 
     def __str__(self):
-        return ' -> '.join(str(i) for i in self)
+        return " -> ".join(str(i) for i in self)
