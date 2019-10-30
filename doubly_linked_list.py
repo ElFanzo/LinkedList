@@ -35,6 +35,7 @@ class DLinkedList:
             self.root = node
             if not self.root.next:
                 self.end = self.root
+
         self._length += len(values)
 
     def add_at_tail(self, *values):
@@ -48,6 +49,7 @@ class DLinkedList:
             for val in values:
                 self.end.next = Node(val, self.end)
                 self.end = self.end.next
+
             self._length += len(values)
 
     def add_at_index(self, index, *values):
@@ -68,6 +70,7 @@ class DLinkedList:
                 node = Node(val, temp, temp.next)
                 temp.next = node
                 node.next.prev = node
+
             self._length += len(values)
         else:
             raise IndexError
@@ -91,6 +94,7 @@ class DLinkedList:
                 temp = self._get(index - 1)
                 temp.next = temp.next.next
                 temp.next.prev = temp
+
             self._length -= 1
         else:
             raise IndexError
@@ -102,8 +106,10 @@ class DLinkedList:
         """
         if not self:
             return None
+
         res = self.root.val
         self.delete_at_index(0)
+
         return res
 
     def pop_end(self):
@@ -113,8 +119,10 @@ class DLinkedList:
         """
         if len(self) < 2:
             return self.pop_root()
+
         res = self.end.val
         self.delete_at_index(len(self) - 1)
+
         return res
 
     def _get(self, index):
@@ -122,16 +130,21 @@ class DLinkedList:
 
         :return: the index-th node
         """
+        if not isinstance(index, int):
+            raise TypeError
         if index >= len(self):
             raise IndexError
+
         if index == 0:
             return self.root
         if index == len(self) - 1:
             return self.end
+
         if index < 0:
             if abs(index) > len(self):
                 raise IndexError
             index += len(self)
+
         temp = None
         if index <= len(self) // 2:
             temp = self.root
@@ -141,6 +154,7 @@ class DLinkedList:
             temp = self.end
             for i in range(len(self) - index - 1):
                 temp = temp.prev
+
         return temp
 
     def __len__(self):
@@ -159,7 +173,9 @@ class DLinkedList:
                 start, stop = stop, start
                 start -= 1
                 stop -= 1
+
             return [(self._get(i)).val for i in range(start, stop, step)]
+
         return (self._get(item)).val
 
     def __setitem__(self, key, value):
@@ -169,6 +185,7 @@ class DLinkedList:
         temp = self.root
         while temp and temp.val != item:
             temp = temp.next
+
         return temp is not None
 
     def __add__(self, other):
@@ -176,6 +193,7 @@ class DLinkedList:
         second = [i for i in other]
         result = DLinkedList(*first)
         result.add_at_tail(*second)
+
         return result
 
     def __str__(self):

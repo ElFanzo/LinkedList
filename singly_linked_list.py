@@ -30,6 +30,7 @@ class SinglyLinkedList:
             self.root = node
             if not self.root.next:
                 self.end = self.root
+
         self._length += len(values)
 
     def add_at_tail(self, *values):
@@ -43,6 +44,7 @@ class SinglyLinkedList:
             for val in values:
                 self.end.next = Node(val)
                 self.end = self.end.next
+
             self._length += len(values)
 
     def add_at_index(self, index, *values):
@@ -62,6 +64,7 @@ class SinglyLinkedList:
                 temp = self._get(index - 1)
                 node = Node(val, temp.next)
                 temp.next = node
+
             self._length += len(values)
         else:
             raise IndexError
@@ -83,6 +86,7 @@ class SinglyLinkedList:
             else:
                 temp = self._get(index - 1)
                 temp.next = temp.next.next
+
             self._length -= 1
         else:
             raise IndexError
@@ -94,8 +98,10 @@ class SinglyLinkedList:
         """
         if not self:
             return None
+
         res = self.root.val
         self.delete_at_index(0)
+
         return res
 
     def pop_end(self):
@@ -105,8 +111,10 @@ class SinglyLinkedList:
         """
         if len(self) < 2:
             return self.pop_root()
+
         res = self.end.val
         self.delete_at_index(len(self) - 1)
+
         return res
 
     def _get(self, index):
@@ -118,17 +126,21 @@ class SinglyLinkedList:
             raise TypeError
         if index >= len(self):
             raise IndexError
+
         if index == 0:
             return self.root
         if index == len(self) - 1:
             return self.end
+
         if index < 0:
             if abs(index) > len(self):
                 raise IndexError
             index += len(self)
+
         temp = self.root
         for i in range(index):
             temp = temp.next
+
         return temp
 
     def __len__(self):
@@ -147,7 +159,9 @@ class SinglyLinkedList:
                 start, stop = stop, start
                 start -= 1
                 stop -= 1
+
             return [(self._get(i)).val for i in range(start, stop, step)]
+
         return (self._get(item)).val
 
     def __setitem__(self, key, value):
@@ -157,6 +171,7 @@ class SinglyLinkedList:
         temp = self.root
         while temp and temp.val != item:
             temp = temp.next
+
         return temp is not None
 
     def __add__(self, other):
@@ -164,6 +179,7 @@ class SinglyLinkedList:
         second = [i for i in other]
         result = SinglyLinkedList(*first)
         result.add_at_tail(*second)
+
         return result
 
     def __str__(self):
