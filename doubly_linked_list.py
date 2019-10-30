@@ -1,7 +1,5 @@
 class Node:
-    """
-    A linked list element class.
-    """
+    """A linked list element class."""
 
     def __init__(self, value=None, prev=None, next=None):
         self.val = value
@@ -10,10 +8,10 @@ class Node:
 
 
 class DLinkedList:
-    """
-    A linked list class, whose elements are an instance of the Node class.
-    :param root: The 1st element
-    :param end: The last element
+    """A linked list class, whose elements are an instance of the Node class.
+
+    :param root: the 1st element
+    :param end: the last element
     """
 
     def __init__(self, *values):
@@ -24,10 +22,9 @@ class DLinkedList:
         self.add_at_head(*values)
 
     def add_at_head(self, *values):
-        """
-        Add a node(s) with value(s) before the first element of a linked list.
+        """Add a node(s) before the first element of a linked list.
+
         :param values: a number or a sequence of numbers
-        :return:
         """
         for val in values[::-1]:
             node = Node(val, None, self.root)
@@ -41,10 +38,9 @@ class DLinkedList:
         self._length += len(values)
 
     def add_at_tail(self, *values):
-        """
-        Append a node(s) with value(s) to the last element of a linked list.
+        """Add a node(s) after the last element of a linked list.
+
         :param values: additional values
-        :return:
         """
         if not self.end:
             self.add_at_head(*values)
@@ -55,13 +51,12 @@ class DLinkedList:
             self._length += len(values)
 
     def add_at_index(self, index, *values):
-        """
-        Add a node(s) with value(s) before the index-th node in a linked list.
+        """Add a node(s) before the index-th node in a linked list.
         If the index equals to the length of the linked list, the node will be
         appended to the end of the linked list.
+
         :param index: the node index
         :param values: a number or a sequence of numbers
-        :return:
         """
         if index == 0:
             self.add_at_head(*values)
@@ -78,10 +73,9 @@ class DLinkedList:
             raise IndexError
 
     def delete_at_index(self, index):
-        """
-        Delete the index-th node in a linked list, if the index is valid.
+        """Delete the index-th node in a linked list, if the index is valid.
+
         :param index: node index
-        :return:
         """
         if 0 <= index < len(self):
             if len(self) == 1:
@@ -102,9 +96,9 @@ class DLinkedList:
             raise IndexError
 
     def pop_root(self):
-        """
-        Remove the first node from a linked list and return its value.
-        :return value: The 1st node value
+        """Remove the first node from a linked list and return its value.
+
+        :return: the 1st node value
         """
         if not self:
             return None
@@ -113,9 +107,9 @@ class DLinkedList:
         return res
 
     def pop_end(self):
-        """
-        Remove the last node from a linked list and return its value.
-        :return value: The last node value
+        """Remove the last node from a linked list and return its value.
+
+        :return: the last node value
         """
         if len(self) < 2:
             return self.pop_root()
@@ -124,8 +118,9 @@ class DLinkedList:
         return res
 
     def _get(self, index):
-        """
-        Get the index-th node in a linked list.
+        """Get the index-th node in a linked list.
+
+        :return: the index-th node
         """
         if index >= len(self):
             raise IndexError
