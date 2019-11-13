@@ -1,1 +1,5 @@
+# Python cache
 *.pyc
+
+# Flake8 config
+.flake8
