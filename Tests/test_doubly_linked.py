@@ -1,11 +1,11 @@
 from unittest import main, TestCase
 
-from doubly_linked_list import DLinkedList
+from doubly_linked import List
 
 
 class TestDList(TestCase):
     def setUp(self):
-        self._list = DLinkedList()
+        self._list = List()
 
     def test_add_at_head(self):
         self._list.add_at_head(0)
@@ -37,20 +37,20 @@ class TestDList(TestCase):
         with self.assertRaises(IndexError):
             self._list.add_at_index(99, 1)
 
-    def test_delete_at_index(self):
+    def test_delete(self):
         with self.assertRaises(IndexError):
-            self._list.delete_at_index(0)
+            self._list.delete(0)
 
         self._list.add_at_head(1, 2, 3)
 
-        self._list.delete_at_index(0)
+        self._list.delete(0)
         self.assertListEqual(self._list[:], [2, 3])
 
-        self._list.delete_at_index(1)
+        self._list.delete(1)
         self.assertListEqual(self._list[:], [2])
 
         with self.assertRaises(IndexError):
-            self._list.delete_at_index(4)
+            self._list.delete(4)
 
     def test_pop_root(self):
         self.assertIsNone(self._list.pop_root())
@@ -126,27 +126,27 @@ class TestDList(TestCase):
         self._list.add_at_head(4, 5, 1, 2, 3)
         self.assertEqual(len(self._list), 5)
 
-        self._list.delete_at_index(0)
+        self._list.delete(0)
         self.assertEqual(len(self._list), 4)
 
     def test_add(self):
         self._list.add_at_head(2, 4, 6)
-        temp = DLinkedList(1, 3, 5)
+        temp = List(1, 3, 5)
         temp = self._list + temp
         self.assertListEqual(temp[:], [2, 4, 6, 1, 3, 5])
 
-        temp = DLinkedList()
+        temp = List()
         temp = self._list + temp
         self.assertListEqual(temp[:], [2, 4, 6])
 
-        temp = DLinkedList(1)
+        temp = List(1)
         temp = self._list + temp
         self.assertListEqual(temp[:], [2, 4, 6, 1])
 
-        temp = DLinkedList(0) + DLinkedList(1)
+        temp = List(0) + List(1)
         self.assertListEqual(temp[:], [0, 1])
 
-        temp = DLinkedList() + DLinkedList()
+        temp = List() + List()
         self.assertListEqual(temp[:], [])
 
     def test_double(self):
@@ -170,7 +170,7 @@ class TestDList(TestCase):
         self._list.add_at_tail(4, 5, 13)
         self.assertEqual(str(self._list), "10 >< 4 >< 5 >< 13")
 
-        self._list.delete_at_index(0)
+        self._list.delete(0)
         self.assertEqual(str(self._list), "4 >< 5 >< 13")
 
     @staticmethod
