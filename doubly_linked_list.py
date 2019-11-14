@@ -8,10 +8,14 @@ class Node:
 
 
 class DLinkedList:
-    """A linked list class, whose elements are an instance of the Node class.
+    """A linked list class, whose elements are instances of the Node class.
 
-    :param root: the 1st element
-    :param end: the last element
+    Args:
+        *values: 1 or more values of a list
+
+    Attributes:
+        root: the 1st element
+        end: the last element
     """
 
     def __init__(self, *values):
@@ -24,7 +28,7 @@ class DLinkedList:
     def add_at_head(self, *values):
         """Add a node(s) before the first element of a linked list.
 
-        :param values: a number or a sequence of numbers
+        :param *values: 1 or more values of the node(s)
         """
         for val in values[::-1]:
             node = Node(val, None, self.root)
@@ -41,7 +45,7 @@ class DLinkedList:
     def add_at_tail(self, *values):
         """Add a node(s) after the last element of a linked list.
 
-        :param values: additional values
+        :param *values: 1 or more values of the node(s)
         """
         if not self.end:
             self.add_at_head(*values)
@@ -59,7 +63,7 @@ class DLinkedList:
         appended to the end of the linked list.
 
         :param index: the node index
-        :param values: a number or a sequence of numbers
+        :param *values: 1 or more values of the node(s)
         """
         if index == 0:
             self.add_at_head(*values)
