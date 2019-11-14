@@ -6,7 +6,7 @@ class Node:
         self.next = next
 
 
-class SinglyLinkedList:
+class List:
     """A linked list class, whose elements are instances of the Node class.
 
     Args:
@@ -17,11 +17,13 @@ class SinglyLinkedList:
         end: the last element
     """
 
+    _conn_sign = " -> "
+
     def __init__(self, *values):
         self.root = None
         self.end = None
 
-        self.__length = 0
+        self._length = 0
 
         self.add_at_head(*values)
 
@@ -31,12 +33,11 @@ class SinglyLinkedList:
         :param *values: 1 or more values of the node(s)
         """
         for val in values[::-1]:
-            node = Node(val, self.root)
-            self.root = node
+            self.root = self._gist_add_at_head(val)
             if not self.root.next:
                 self.end = self.root
 
-        self.__length += len(values)
+        self._length += len(values)
 
     def add_at_tail(self, *values):
         """Add a node(s) after the last element of a linked list.
@@ -47,10 +48,10 @@ class SinglyLinkedList:
             self.add_at_head(*values)
         else:
             for val in values:
-                self.end.next = Node(val)
+                self.end.next = self._gist_add_at_tail(val)
                 self.end = self.end.next
 
-            self.__length += len(values)
+            self._length += len(values)
 
     def add_at_index(self, index, *values):
         """Add a node(s) before the index-th node in a linked list.
@@ -68,14 +69,13 @@ class SinglyLinkedList:
         elif 0 < index < len(self):
             for val in values[::-1]:
                 temp = self._get(index - 1)
-                node = Node(val, temp.next)
-                temp.next = node
+                self._gist_add_at_index(temp, val)
 
-            self.__length += len(values)
+            self._length += len(values)
         else:
             raise IndexError
 
-    def delete_at_index(self, index):
+    def delete(self, index):
         """Delete the index-th node in a linked list, if the index is valid.
 
         :param index: the node index
@@ -84,16 +84,10 @@ class SinglyLinkedList:
             if len(self) == 1:
                 self.root = None
                 self.end = None
-            elif index == 0:
-                self.root = self.root.next
-            elif index == len(self) - 1:
-                self.end = self._get(len(self) - 2)
-                self.end.next = None
             else:
-                temp = self._get(index - 1)
-                temp.next = temp.next.next
+                self._gist_delete(index)
 
-            self.__length -= 1
+            self._length -= 1
         else:
             raise IndexError
 
@@ -106,7 +100,7 @@ class SinglyLinkedList:
             return None
 
         res = self.root.val
-        self.delete_at_index(0)
+        self.delete(0)
 
         return res
 
@@ -119,7 +113,7 @@ class SinglyLinkedList:
             return self.pop_root()
 
         res = self.end.val
-        self.delete_at_index(len(self) - 1)
+        self.delete(len(self) - 1)
 
         return res
 
@@ -143,14 +137,38 @@ class SinglyLinkedList:
                 raise IndexError
             index += len(self)
 
+        return self._gist_get(index)
+
+    def _gist_add_at_head(self, val):
+        return Node(val, self.root)
+
+    def _gist_add_at_tail(self, val):
+        return Node(val)
+
+    def _gist_add_at_index(self, temp, val):
+        temp.next = Node(val, temp.next)
+
+    def _gist_delete(self, index):
+        if index == 0:
+            self.root = self.root.next
+        elif index == len(self) - 1:
+            self.end = self._get(len(self) - 2)
+            self.end.next = None
+        else:
+            temp = self._get(index - 1)
+            temp.next = temp.next.next
+
+    def _gist_get(self, index):
+        return self._gist_go_to_node(index)
+
+    def _gist_go_to_node(self, index):
         temp = self.root
         for i in range(index):
             temp = temp.next
-
         return temp
 
     def __len__(self):
-        return self.__length
+        return self._length
 
     def __iter__(self):
         for i in range(len(self)):
@@ -183,10 +201,10 @@ class SinglyLinkedList:
     def __add__(self, other):
         first = [i for i in self]
         second = [i for i in other]
-        result = SinglyLinkedList(*first)
+        result = self.__class__(*first)
         result.add_at_tail(*second)
 
         return result
 
     def __str__(self):
-        return " -> ".join(str(i) for i in self)
+        return self._conn_sign.join(str(i) for i in self)
