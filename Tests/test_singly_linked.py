@@ -4,8 +4,10 @@ from singly_linked import List
 
 
 class TestList(TestCase):
+    conn_sign = "->"
+
     def setUp(self):
-        self._list = List()
+        self._list = self.get_list()
 
     def test_add_at_head(self):
         self._list.add_at_head(0)
@@ -131,22 +133,22 @@ class TestList(TestCase):
 
     def test_add(self):
         self._list.add_at_head(2, 4, 6)
-        temp = List(1, 3, 5)
+        temp = self.get_list(1, 3, 5)
         temp = self._list + temp
         self.assertListEqual(temp[:], [2, 4, 6, 1, 3, 5])
 
-        temp = List()
+        temp = self.get_list()
         temp = self._list + temp
         self.assertListEqual(temp[:], [2, 4, 6])
 
-        temp = List(1)
+        temp = self.get_list(1)
         temp = self._list + temp
         self.assertListEqual(temp[:], [2, 4, 6, 1])
 
-        temp = List(0) + List(1)
+        temp = self.get_list(0) + self.get_list(1)
         self.assertListEqual(temp[:], [0, 1])
 
-        temp = List() + List()
+        temp = self.get_list() + self.get_list()
         self.assertListEqual(temp[:], [])
 
     def test_str(self):
@@ -156,10 +158,17 @@ class TestList(TestCase):
         self.assertEqual(str(self._list), "10")
 
         self._list.add_at_tail(4, 5, 13)
-        self.assertEqual(str(self._list), "10 -> 4 -> 5 -> 13")
+        self.assertEqual(
+            str(self._list), "10 {0} 4 {0} 5 {0} 13".format(self.conn_sign)
+        )
 
         self._list.delete(0)
-        self.assertEqual(str(self._list), "4 -> 5 -> 13")
+        self.assertEqual(
+            str(self._list), "4 {0} 5 {0} 13".format(self.conn_sign)
+        )
+
+    def get_list(self, *args):
+        return List(*args)
 
     @staticmethod
     def run_test():
