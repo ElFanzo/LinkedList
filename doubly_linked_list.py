@@ -21,7 +21,8 @@ class DLinkedList:
     def __init__(self, *values):
         self.root = None
         self.end = None
-        self._length = 0
+
+        self.__length = 0
 
         self.add_at_head(*values)
 
@@ -40,7 +41,7 @@ class DLinkedList:
             if not self.root.next:
                 self.end = self.root
 
-        self._length += len(values)
+        self.__length += len(values)
 
     def add_at_tail(self, *values):
         """Add a node(s) after the last element of a linked list.
@@ -54,7 +55,7 @@ class DLinkedList:
                 self.end.next = Node(val, self.end)
                 self.end = self.end.next
 
-            self._length += len(values)
+            self.__length += len(values)
 
     def add_at_index(self, index, *values):
         """Add a node(s) before the index-th node in a linked list.
@@ -76,7 +77,7 @@ class DLinkedList:
                 temp.next = node
                 node.next.prev = node
 
-            self._length += len(values)
+            self.__length += len(values)
         else:
             raise IndexError
 
@@ -100,7 +101,7 @@ class DLinkedList:
                 temp.next = temp.next.next
                 temp.next.prev = temp
 
-            self._length -= 1
+            self.__length -= 1
         else:
             raise IndexError
 
@@ -163,7 +164,7 @@ class DLinkedList:
         return temp
 
     def __len__(self):
-        return self._length
+        return self.__length
 
     def __iter__(self):
         for i in range(len(self)):

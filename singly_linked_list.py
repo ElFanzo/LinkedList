@@ -21,7 +21,7 @@ class SinglyLinkedList:
         self.root = None
         self.end = None
 
-        self._length = 0
+        self.__length = 0
 
         self.add_at_head(*values)
 
@@ -36,7 +36,7 @@ class SinglyLinkedList:
             if not self.root.next:
                 self.end = self.root
 
-        self._length += len(values)
+        self.__length += len(values)
 
     def add_at_tail(self, *values):
         """Add a node(s) after the last element of a linked list.
@@ -50,7 +50,7 @@ class SinglyLinkedList:
                 self.end.next = Node(val)
                 self.end = self.end.next
 
-            self._length += len(values)
+            self.__length += len(values)
 
     def add_at_index(self, index, *values):
         """Add a node(s) before the index-th node in a linked list.
@@ -71,7 +71,7 @@ class SinglyLinkedList:
                 node = Node(val, temp.next)
                 temp.next = node
 
-            self._length += len(values)
+            self.__length += len(values)
         else:
             raise IndexError
 
@@ -93,7 +93,7 @@ class SinglyLinkedList:
                 temp = self._get(index - 1)
                 temp.next = temp.next.next
 
-            self._length -= 1
+            self.__length -= 1
         else:
             raise IndexError
 
@@ -150,7 +150,7 @@ class SinglyLinkedList:
         return temp
 
     def __len__(self):
-        return self._length
+        return self.__length
 
     def __iter__(self):
         for i in range(len(self)):
