@@ -174,15 +174,23 @@ class List:
 
     def __getitem__(self, item):
         if isinstance(item, slice):
-            start = 0 if not item.start else item.start
-            stop = len(self) if not item.stop else item.stop
-            step = 1 if not item.step else item.step
-            if step < 0:
-                start, stop = stop, start
-                start -= 1
-                stop -= 1
+            step = item.step or 1
+            if step < 0 and (item.start is None or item.stop is None):
+                start = item.start or len(self) - 1
+                stop = item.stop or -1
+            else:
+                start = item.start or 0
+                stop = len(self) if item.stop is None else item.stop
 
-            return [(self._get(i)).val for i in range(start, stop, step)]
+                if start < 0:
+                    start += len(self)
+                if stop < 0:
+                    stop += len(self)
+
+            return [
+                (self._get(i)).val for i in range(start, stop, step)
+                if 0 <= i < len(self)
+            ]
 
         return (self._get(item)).val
 
