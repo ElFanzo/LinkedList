@@ -113,11 +113,33 @@ class TestList(TestCase):
         with self.assertRaises(IndexError):
             self._list[0]
 
-        self._list.add_at_head(4, 3)
+        self._list.add_at_head(4, 3, 5, 1)
 
         self.assertEqual(self._list[0], 4)
 
-        self.assertEqual(self._list[1], 3)
+        self.assertEqual(self._list[3], 1)
+
+        self.assertEqual(self._list[-2], 5)
+
+        self.assertEqual(self._list[1:3], [3, 5])
+
+        self.assertEqual(self._list[1::], [3, 5, 1])
+
+        self.assertEqual(self._list[3:0:-1], [1, 5, 3])
+
+        self.assertEqual(self._list[2::-1], [5, 3, 4])
+
+        self.assertEqual(self._list[-4:-2], [4, 3])
+
+        self.assertEqual(self._list[-3:4], [3, 5, 1])
+
+        self.assertEqual(self._list[-8:], [4, 3, 5, 1])
+
+        self.assertEqual(self._list[-8:20], [4, 3, 5, 1])
+
+        self.assertEqual(self._list[-1:-4:-1], [1, 5, 3])
+
+        self.assertEqual(self._list[-10:-6], [])
 
         with self.assertRaises(IndexError):
             self._list[4]
