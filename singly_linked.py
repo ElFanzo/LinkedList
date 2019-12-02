@@ -124,7 +124,7 @@ class List:
         """
         if not isinstance(index, int):
             raise TypeError
-        if index >= len(self):
+        if not (-len(self) <= index < len(self)):
             raise IndexError
 
         if index == 0:
@@ -133,8 +133,6 @@ class List:
             return self.end
 
         if index < 0:
-            if abs(index) > len(self):
-                raise IndexError
             index += len(self)
 
         return self._gist_get(index)
