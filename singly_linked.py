@@ -1,7 +1,18 @@
+import typing
+from typing import Optional, Union
+
+ListType = typing.List[Union[int, float]]
+NodeValue = Union[int, float]
+
+
 class Node:
     """A linked list element class."""
 
-    def __init__(self, value=None, next=None):
+    def __init__(
+        self,
+        value: Optional[NodeValue] = None,
+        next: Optional["Node"] = None
+    ):
         self.val = value
         self.next = next
 
@@ -19,7 +30,7 @@ class List:
 
     _conn_sign = " -> "
 
-    def __init__(self, *values):
+    def __init__(self, *values: NodeValue):
         self.root = None
         self.end = None
 
@@ -27,7 +38,7 @@ class List:
 
         self.add_at_head(*values)
 
-    def add_at_head(self, *values):
+    def add_at_head(self, *values: NodeValue):
         """Add a node(s) before the first element of a linked list.
 
         :param *values: 1 or more values of the node(s)
@@ -39,7 +50,7 @@ class List:
 
         self._length += len(values)
 
-    def add_at_tail(self, *values):
+    def add_at_tail(self, *values: NodeValue):
         """Add a node(s) after the last element of a linked list.
 
         :param *values: 1 or more values of the node(s)
@@ -53,7 +64,7 @@ class List:
 
             self._length += len(values)
 
-    def add_at_index(self, index, *values):
+    def add_at_index(self, index: int, *values: NodeValue):
         """Add a node(s) before the index-th node in a linked list.
 
         If the index equals to the length of the linked list, the node will be
@@ -75,7 +86,7 @@ class List:
         else:
             raise IndexError
 
-    def delete(self, index):
+    def delete(self, index: int):
         """Delete the index-th node in a linked list, if the index is valid.
 
         :param index: the node index
@@ -91,7 +102,7 @@ class List:
         else:
             raise IndexError
 
-    def pop_root(self):
+    def pop_root(self) -> Optional[NodeValue]:
         """Remove the first node from a linked list and return its value.
 
         :return: the 1st node value
@@ -104,7 +115,7 @@ class List:
 
         return res
 
-    def pop_end(self):
+    def pop_end(self) -> Optional[NodeValue]:
         """Remove the last node  from a linked list and return its value.
 
         :return: the last node value
@@ -117,7 +128,7 @@ class List:
 
         return res
 
-    def _get(self, index):
+    def _get(self, index) -> Optional[Node]:
         """Get the index-th node in a linked list.
 
         :return: the index-th node
@@ -137,16 +148,16 @@ class List:
 
         return self._gist_get(index)
 
-    def _gist_add_at_head(self, val):
+    def _gist_add_at_head(self, val: NodeValue) -> Node:
         return Node(val, self.root)
 
-    def _gist_add_at_tail(self, val):
+    def _gist_add_at_tail(self, val: NodeValue) -> Node:
         return Node(val)
 
-    def _gist_add_at_index(self, temp, val):
+    def _gist_add_at_index(self, temp: Node, val: NodeValue):
         temp.next = Node(val, temp.next)
 
-    def _gist_delete(self, index):
+    def _gist_delete(self, index: int):
         if index == 0:
             self.root = self.root.next
         elif index == len(self) - 1:
@@ -156,10 +167,10 @@ class List:
             temp = self._get(index - 1)
             temp.next = temp.next.next
 
-    def _gist_get(self, index):
+    def _gist_get(self, index: int) -> Node:
         return self._gist_go_to_node(index)
 
-    def _gist_go_to_node(self, index):
+    def _gist_go_to_node(self, index: int) -> Node:
         temp = self.root
         for i in range(index):
             temp = temp.next
@@ -168,11 +179,11 @@ class List:
     def __len__(self):
         return self._length
 
-    def __iter__(self):
+    def __iter__(self) -> NodeValue:
         for i in range(len(self)):
             yield (self._get(i)).val
 
-    def __getitem__(self, item):
+    def __getitem__(self, item) -> Union[int, float, ListType]:
         if isinstance(item, slice):
             step = item.step or 1
             if step < 0 and (item.start is None or item.stop is None):
@@ -188,23 +199,24 @@ class List:
                     stop += len(self)
 
             return [
-                (self._get(i)).val for i in range(start, stop, step)
+                (self._get(i)).val
+                for i in range(start, stop, step)
                 if 0 <= i < len(self)
             ]
 
         return (self._get(item)).val
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: int, value: Optional[NodeValue]):
         (self._get(key)).val = value
 
-    def __contains__(self, item):
+    def __contains__(self, item: Optional[NodeValue]) -> bool:
         temp = self.root
         while temp and temp.val != item:
             temp = temp.next
 
         return temp is not None
 
-    def __add__(self, other):
+    def __add__(self, other: "List") -> "List":
         first = [i for i in self]
         second = [i for i in other]
         result = self.__class__(*first)
